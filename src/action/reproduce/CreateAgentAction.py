@@ -12,7 +12,9 @@ class CreateAgentAction(Action):
         gen1 = self._agent1.getGenotype()
         gen2 = self._agent2.getGenotype()
         self._createdAgent = self._agent1.getParent().addAgent(self._agent1.__class__, self._agent1.getEnv())
-        self._createdAgent.setNewGenotype(gen1, gen2)
+        energy1 = self._agent1.getEnergy()
+        energy2 = self._agent2.getEnergy()
+        self._createdAgent.setNewGenotype(gen1, gen2, energy1, energy2)
         self._changeAddittionalInfo(1)
         
     def rollback(self, index):

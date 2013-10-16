@@ -4,8 +4,11 @@ from numpy import *
 
 class Mutation(object):
     
-    def mutate(self, genotype, rand):
-        return getattr(self, Parameters.mutation)(genotype, rand)
+    def mutate(self, genotype, rand, meanIslandEnergy, meanParentsEnergy):
+        if Parameters.mutation == 'adaptiveMutation':
+            return getattr(self, Parameters.mutation)(genotype, rand, meanIslandEnergy, meanParentsEnergy)
+        else:
+            return getattr(self, Parameters.mutation)(genotype, rand)
     
     def continuousDistribution(self, genotype, rand):
         i = rand.randint(0, Parameters.genotypeLength-1)
@@ -56,6 +59,24 @@ class Mutation(object):
         genotype[i] = genotype[j]
         genotype[j]=temp
 
+        return genotype
+
+    def adaptiveMutation(self, genotype, rand, meanIslandEnergy, meanParentsEnergy):
+        i = rand.randint(0, Parameters.genotypeLength-1)
+        #print abs(meanIslandEnergy-meanParentsEnergy)
+        mutation = rand.normalvariate(0, 1)
+        mutation *= Parameters.mutationMaxValue
+        if rand.randint(0, 100) > 50:
+            sign = 1
+        else:
+            sign = -1
+        newValue = genotype[i] + sign * mutation
+
+        if newValue > Parameters.cubeSize:
+            newValue = Parameters.cubeSize
+        if newValue < -Parameters.cubeSize:
+            newValue = -Parameters.cubeSize
+        genotype[i] = newValue
         return genotype
 
 

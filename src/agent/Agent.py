@@ -110,10 +110,11 @@ class Agent(object):
     def getGenotype(self):
         return None
     
-    def setNewGenotype(self, gen1, gen2):
+    def setNewGenotype(self, gen1, gen2, energy1, energy2):
         '''Creates new genotype from parents genotypes. There can be some mutations 
         implemented here.'''
         '''gen1, gen2 - genotypes of parent1 and parent2'''
+        '''energy1, energy2 - energy levels of parent1 and parent2'''
         pass
     
     def fight(self, otherAgent):

@@ -10,7 +10,7 @@ for f in files:
     	os.remove(f)
 
 #tworze nowy folder
-folder_name = Parameters.algorithm + Parameters.memetics + "_" + datetime.datetime.now().strftime("%Y-%m-%d_%H_%M")
+folder_name = Parameters.algorithm + Parameters.memetics + "_" + datetime.datetime.now().strftime("%Y-%m-%d_%H_%M_%S")
 os.makedirs('results/' + folder_name)
 
 #uruchamiam obliczenia

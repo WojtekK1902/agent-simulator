@@ -1,3 +1,4 @@
+from _ast import Param
 from implementation.Parameters import Parameters
 from simulation.GeneticSimulation import GeneticSimulation
 from simulation.EvolutionarySimulation import EvolutionarySimulation
@@ -40,7 +41,8 @@ class SimulationRunner(object):
                 
                 
             for i in xrange(Parameters.simulations):
-                globals()[Parameters.memetizationManager]().clearInfo()
+                if Parameters.memetizationManager != 'None':
+                    globals()[Parameters.memetizationManager]().clearInfo()
                 if Parameters.printStatsGlobal:
                     print 'Simulation no. %d' % (i + 1)
                 

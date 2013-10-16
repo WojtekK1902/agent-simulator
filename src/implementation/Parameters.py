@@ -13,10 +13,10 @@ class Parameters(object):
     algorithms = ['GeneticSimulation', 'EvolutionarySimulation']
     algorithm = algorithms[0]
 
-    mutationsType = ['continuousDistribution', 'normalDistribution','discreteDistribution1n1','discreteFlip']
+    mutationsType = ['continuousDistribution', 'normalDistribution','discreteDistribution1n1','discreteFlip','adaptiveMutation']
 
     '''Configuration of mutations'''
-    mutation = mutationsType[1]
+    mutation = mutationsType[4]
     
     crossoverTypes = ['SinglePoint','SinglePointPermutation']
     crossover = crossoverTypes[0]
@@ -29,7 +29,7 @@ class Parameters(object):
     
     '''Memetic parameters (general)'''   
     memeticsModes = ['None', 'Lamarck', 'Baldwin']
-    memetics = memeticsModes[2]
+    memetics = memeticsModes[0]
     
     
     
@@ -49,14 +49,14 @@ class Parameters(object):
     drawCharts = False
     
     '''How many simulations to launch consecutively.'''
-    simulations = 10
+    simulations = 3
     
     '''In our example it means, that they are 3 normalized float values (RGB)'''
     genotypeLength = 50
 
     '''Machine Learning memetization managers'''
     memetizationManagers = ['None', 'AQMemetizationManager', 'NBMemetizationManager']
-    memetizationManager = memetizationManagers[2]
+    memetizationManager = memetizationManagers[0]
 
     '''Number of positive/negative individuals'''
     aqPositiveNegativeCount = 50

@@ -7,6 +7,7 @@ import math
 from simulation.Global import Global
 from machine_learning.AQMemetizationManager import AQMemetizationManager
 from machine_learning.NBMemetizationManager import NBMemetizationManager
+from numpy import mean
 
 class Specimen(Agent):
 
@@ -366,9 +367,14 @@ class Specimen(Agent):
     def getGenotype(self):
         return self._genotype
     
-    def setNewGenotype(self, gen1, gen2):        
+    def setNewGenotype(self, gen1, gen2, energy1, energy2):
         gen=getattr(self, "_cross"+Parameters.crossover)(gen1,gen2)
-        self._genotype=Mutation().mutate(gen, self._rand)        
+        meanIslandEnergy = mean([child.getEnergy() for child in self.getParent().getChildren()])
+        #for energy in meanIslandEnergy:
+         #   energy /= meanIslandEnergy.max()/1.0
+          #  print energy
+        meanParentsEnergy = mean([energy1, energy2])
+        self._genotype=Mutation().mutate(gen, self._rand, meanIslandEnergy, meanParentsEnergy)
         self._recalculateFitness()
         
     def _crossSinglePoint(self,gen1,gen2):
