@@ -3,6 +3,10 @@ from numpy import *
 
 
 class Mutation(object):
+
+    betterParents = 0
+    worseParents = 0
+    normalParents = 0
     
     def mutate(self, genotype, rand, meanIslandEnergy, meanParentsEnergy):
         if Parameters.mutation == 'adaptiveMutation':
@@ -63,13 +67,23 @@ class Mutation(object):
 
     def adaptiveMutation(self, genotype, rand, meanIslandEnergy, meanParentsEnergy):
         i = rand.randint(0, Parameters.genotypeLength-1)
-        #print abs(meanIslandEnergy-meanParentsEnergy)
         mutation = rand.normalvariate(0, 1)
+        if meanParentsEnergy > 1.2*meanIslandEnergy:
+            #globals()[betterParents] += 1
+            mutation /= 2
+        elif meanParentsEnergy < 0.5*meanIslandEnergy:
+            #globals()[worseParents] += 1
+            mutation *= 2
+            #globals()[normalParents] += 1
+
+        #print globals()[betterParents], globals()[normalParents], globals()[worseParents]
+
         mutation *= Parameters.mutationMaxValue
         if rand.randint(0, 100) > 50:
             sign = 1
         else:
             sign = -1
+
         newValue = genotype[i] + sign * mutation
 
         if newValue > Parameters.cubeSize:

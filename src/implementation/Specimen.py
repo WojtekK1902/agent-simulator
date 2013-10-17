@@ -369,11 +369,12 @@ class Specimen(Agent):
     
     def setNewGenotype(self, gen1, gen2, energy1, energy2):
         gen=getattr(self, "_cross"+Parameters.crossover)(gen1,gen2)
-        meanIslandEnergy = mean([child.getEnergy() for child in self.getParent().getChildren()])
-        #for energy in meanIslandEnergy:
-         #   energy /= meanIslandEnergy.max()/1.0
-          #  print energy
-        meanParentsEnergy = mean([energy1, energy2])
+        islandEnergies = [child.getEnergy() for child in self.getParent().getChildren()]
+        meanIslandEnergy = mean(islandEnergies)
+        #meanIslandEnergy = mean([energy/(max(islandEnergies)/max(gen)) for energy in islandEnergies])
+        parentsEnergies = [energy1, energy2]
+        meanParentsEnergy = mean(parentsEnergies)
+        #meanParentsEnergy = mean([energy/(max(parentsEnergies)/max(gen)) for energy in parentsEnergies])
         self._genotype=Mutation().mutate(gen, self._rand, meanIslandEnergy, meanParentsEnergy)
         self._recalculateFitness()
         
