@@ -22,6 +22,8 @@ class Specimen(Agent):
         self._updated=None
         self._recalculateFitness()
         self._fitnessCalls = 0
+        self._lost = 0
+        self._won = 0
         
     def _initializationREAL(self):
         rand = self._rand
@@ -366,8 +368,14 @@ class Specimen(Agent):
         
     def getGenotype(self):
         return self._genotype
+
+    def getWonFightsCount(self):
+        return self._won
+
+    def getLostFightsCount(self):
+        return self._lost
     
-    def setNewGenotype(self, gen1, gen2, energy1, energy2):
+    def setNewGenotype(self, gen1, gen2, energy1, energy2, parentsFightsWon, parentsFightsLost):
         gen=getattr(self, "_cross"+Parameters.crossover)(gen1,gen2)
         islandEnergies = [child.getEnergy() for child in self.getParent().getChildren()]
         meanIslandEnergy = mean(islandEnergies)
@@ -375,7 +383,7 @@ class Specimen(Agent):
         parentsEnergies = [energy1, energy2]
         meanParentsEnergy = mean(parentsEnergies)
         #meanParentsEnergy = mean([energy/(max(parentsEnergies)/max(gen)) for energy in parentsEnergies])
-        self._genotype=Mutation().mutate(gen, self._rand, meanIslandEnergy, meanParentsEnergy)
+        self._genotype=Mutation().mutate(gen, self._rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost)
         self._recalculateFitness()
         
     def _crossSinglePoint(self,gen1,gen2):
@@ -415,10 +423,12 @@ class Specimen(Agent):
         if myFitness <= otherAgentFitness:
             self._energy += Parameters.fightEnergyWin
             otherAgent._energy += Parameters.fightEnergyLoose
+            self._lost += 1
             self._checkIfKill(otherAgent, self)
         else:
             otherAgent._energy += Parameters.fightEnergyWin
             self._energy += Parameters.fightEnergyLoose
+            self._won += 1
             self._checkIfKill(self, otherAgent)
         if Parameters.memetics!='None':
             mm = globals()[Parameters.memetizationManager]()
