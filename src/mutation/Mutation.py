@@ -8,9 +8,9 @@ class Mutation(object):
     worseParents = 0
     normalParents = 0
     
-    def mutate(self, genotype, rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost):
+    def mutate(self, genotype, rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost, islandEnergyStdDev, mutationDistance):
         if Parameters.mutation == 'adaptiveMutation':
-            return getattr(self, Parameters.mutation)(genotype, rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost)
+            return getattr(self, Parameters.mutation)(genotype, rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost, islandEnergyStdDev, mutationDistance)
         else:
             return getattr(self, Parameters.mutation)(genotype, rand)
     
@@ -65,14 +65,14 @@ class Mutation(object):
 
         return genotype
 
-    def adaptiveMutation(self, genotype, rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost):
+    def adaptiveMutation(self, genotype, rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost, islandEnergyStdDev, mutationDistance):
         i = rand.randint(0, Parameters.genotypeLength-1)
         mutation = rand.normalvariate(0, 1)
 
-        if parentsFightsLost < 4:
-            mutation /= 2
-        else:
-            mutation *= 2
+        mutation *= mutationDistance
+
+        #if islandEnergyStdDev < 40.0:
+        #    mutation *= 4.0
 
         #if meanParentsEnergy > 1.2*meanIslandEnergy:
         #    #globals()[betterParents] += 1

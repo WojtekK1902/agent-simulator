@@ -60,6 +60,8 @@ class MeetingAction(ComplexAction):
         self.addAction(ChangeAgentEnergyAction(agent))
         self.addAction(ChangeAgentEnergyAction(meetingAgent))
         self.addAction(CreateAgentAction(agent, meetingAgent, self._simLogic))
+        agent.increaseReproduceCount()
+        meetingAgent.increaseReproduceCount()
         
     def fight(self, agent, meetingAgent):
         self.addAction(FightAction(agent,meetingAgent))

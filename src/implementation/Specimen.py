@@ -7,7 +7,8 @@ import math
 from simulation.Global import Global
 from machine_learning.AQMemetizationManager import AQMemetizationManager
 from machine_learning.NBMemetizationManager import NBMemetizationManager
-from numpy import mean
+from numpy import mean, std
+
 
 class Specimen(Agent):
 
@@ -24,6 +25,7 @@ class Specimen(Agent):
         self._fitnessCalls = 0
         self._lost = 0
         self._won = 0
+        self._reproductionCount = 0
         
     def _initializationREAL(self):
         rand = self._rand
@@ -348,6 +350,9 @@ class Specimen(Agent):
             if self._energy - Parameters.initEnergy / 2 > 0:
                 return True
         return False
+
+    def increaseReproduceCount(self):
+        self._reproductionCount += 1
     
     def wantToMigrate(self):
         if self._rand.random() <= Parameters.migrationProbability:
@@ -379,11 +384,22 @@ class Specimen(Agent):
         gen=getattr(self, "_cross"+Parameters.crossover)(gen1,gen2)
         islandEnergies = [child.getEnergy() for child in self.getParent().getChildren()]
         meanIslandEnergy = mean(islandEnergies)
+        islandEnergyStdDev = std(islandEnergies)
         #meanIslandEnergy = mean([energy/(max(islandEnergies)/max(gen)) for energy in islandEnergies])
         parentsEnergies = [energy1, energy2]
         meanParentsEnergy = mean(parentsEnergies)
         #meanParentsEnergy = mean([energy/(max(parentsEnergies)/max(gen)) for energy in parentsEnergies])
-        self._genotype=Mutation().mutate(gen, self._rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost)
+        if len(self.getParent().getReproductionSuccessHistory()) > 200:
+            if mean(self.getParent().getReproductionSuccessHistory()[-200:]) < .1:
+                #print 'slabo'
+                self.getParent().setMutationDistance(self.getParent().getMutationDistance() + 0.001)
+                #print self.getParent().getMutationDistance()
+            #else:
+            #    self.getParent().setMutationDistance(self.getParent().getMutationDistance() - 0.001)
+        mutationDistance = self.getParent().getMutationDistance()
+        #print mutationDistance
+        #print mean(self.getParent().getReproductionSuccessHistory()[-100:]), mutationDistance
+        self._genotype=Mutation().mutate(gen, self._rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost, islandEnergyStdDev, mutationDistance)
         self._recalculateFitness()
         
     def _crossSinglePoint(self,gen1,gen2):
@@ -421,13 +437,23 @@ class Specimen(Agent):
         myFitness=self._fitness
         otherAgentFitness = otherAgent.getFitness()
         if myFitness <= otherAgentFitness:
-            self._energy += Parameters.fightEnergyWin
-            otherAgent._energy += Parameters.fightEnergyLoose
+            energyWin = Parameters.fightEnergyWin
+            energyLose = Parameters.fightEnergyLoose
+            if self._reproductionCount > 2:
+                energyWin /= 4
+                energyLose /= 4
+            self._energy += energyWin
+            otherAgent._energy += energyLose
             self._lost += 1
             self._checkIfKill(otherAgent, self)
         else:
-            otherAgent._energy += Parameters.fightEnergyWin
-            self._energy += Parameters.fightEnergyLoose
+            energyWin = Parameters.fightEnergyWin
+            energyLose = Parameters.fightEnergyLoose
+            if self._reproductionCount > 2:
+                energyWin *= 4
+                energyLose *= 4
+            otherAgent._energy += energyWin
+            self._energy += energyLose
             self._won += 1
             self._checkIfKill(self, otherAgent)
         if Parameters.memetics!='None':

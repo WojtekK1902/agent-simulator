@@ -19,6 +19,11 @@ class CreateAgentAction(Action):
         parentsFightsLost = mean([self._agent1.getLostFightsCount(), self._agent2.getLostFightsCount()])
         #print parentsFightsWon, parentsFightsLost
         self._createdAgent.setNewGenotype(gen1, gen2, energy1, energy2, parentsFightsWon, parentsFightsLost)
+        if mean([self._agent1.getFitness(), self._agent2.getFitness()]) > self._createdAgent.getFitness():
+            self._createdAgent.getParent().addReproductionSucccess()
+        else:
+            self._createdAgent.getParent().addReproductionFail()
+        #print self._agent1.getFitness(), self._agent2.getFitness(), self._createdAgent.getFitness()
         self._changeAddittionalInfo(1)
         
     def rollback(self, index):

@@ -84,8 +84,10 @@ class SimLogic(object):
                 agentAttr = []
                 for method in self._statsListener.getGetters(agent.__class__):
                     agentAttr.append(getattr(agent, method)())
+
                 list.append(agentAttr)
                 statsData[agent.__class__] = list
+
         for key in statsData.keys():
             data = statsData.get(key, [])
             self._statsListener.stats(data, key)

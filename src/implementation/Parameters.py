@@ -23,7 +23,7 @@ class Parameters(object):
 
 
 
-    simSteps = 3000
+    simSteps = 5000
     agentSteps = None
 
     
@@ -74,7 +74,8 @@ class Parameters(object):
                 #'SimStepsToMakeResultBetterMonitor', # GEN -                 
                 #'StatsCollector',                    # GEN EVOL
                 #'DiversityMonitor',                   # GEN EVOL                
-                'DiversityMonitor','BestFitnessMonitor'                   # GEN EVOL
+                'DiversityMonitor','BestFitnessMonitor',                   # GEN EVOL
+                'EnergyMonitor'                         #GEN
                 ]
     
     actionMonitors = [
@@ -117,8 +118,8 @@ class Parameters(object):
     # ALBO EWENTUALNIE DLA WSZYSTKICH
     #cubeSize = 10
     
-    function = 'Rastrigin'
-    cubeSize = 10
+    #function = 'Rastrigin'
+    #cubeSize = 10
     #cubeSize = 5.12
 
     #function = 'FrequencyModulatedSoundWaves'
@@ -130,8 +131,8 @@ class Parameters(object):
     #function = 'Ackley'
     #cubeSize = 1
 
-    #function = 'DeJong'
-    #cubeSize = 5.12
+    function = 'DeJong'
+    cubeSize = 5.12
     
     #function = 'AxisParallelHyperEllipsoid'
     #cubeSize = 5.12

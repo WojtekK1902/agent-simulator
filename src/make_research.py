@@ -4,6 +4,9 @@ from numpy import mean, std
 
 files = ['count.txt', 'diversity.txt', 'fitness.txt', 'reproduceCount.txt']
 
+for i in range(Parameters.herdAgentsCount):
+    files.append('energy' + str(i+1) + '.txt')
+
 #usuwam stare pliki z wynikami
 for f in files:
     if os.path.exists(f):
@@ -34,8 +37,22 @@ for i in keys:
     f.write(str(i) + ' ' + str(mean(fitness_dict[i])) + ' ' + str(std(fitness_dict[i])) + '\n')
 f.close()
 
-shutil.move('fitness.txt', 'results/'+folder_name+'/fitness.txt')
-shutil.move('count.txt', 'results/'+folder_name+'/count.txt')
-shutil.move('diversity.txt', 'results/'+folder_name+'/diversity.txt')
-if os.path.isfile('reproduceCount.txt'):
-    shutil.move('reproduceCount.txt', 'results/'+folder_name+'/reproduceCount.txt')
+for i in range(Parameters.herdAgentsCount):
+    f = open('energy' + str(i+1) + '.txt')
+    energy_dict = {}
+    for line in f:
+        l = line.strip().split(';')
+        energies = [float(x) for x in l[1].strip('\n[]').split(', ')]
+        en = energy_dict.get(int(l[0]), [])
+        en.append(mean(energies))
+        energy_dict[int(l[0])] = en
+    f.close()
+
+    f = open('results/' + folder_name + '/' + 'energy' + str(i+1) + '.data','w')
+    for i in keys:
+        f.write(str(i) + ' ' + str(mean(energy_dict[i])) + ' ' + str(std(energy_dict[i])) + '\n')
+    f.close()
+
+for f in files:
+    if os.path.isfile(f):
+        shutil.move(f, 'results/' + folder_name +'/' + f)

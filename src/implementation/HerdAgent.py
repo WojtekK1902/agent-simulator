@@ -15,6 +15,8 @@ class HerdAgent(Agent):
         Agent.__init__(self, addr, env, childrenEnv)
         self._reprCount = 0
         self._rand = Random()
+        self._reproductionSuccessHistory = [] #list of booleans - True=reproduction succeeded
+        self._mutationDistance = 1.0 #used in adaptive mutation
            
     def getCount(self):
         return len(self.getChildren()) 
@@ -40,6 +42,12 @@ class HerdAgent(Agent):
         result = 0.0
         for child in self.getChildren():
             result += child._energy
+        return result
+
+    def getEnergies(self):
+        result = []
+        for child in self.getChildren():
+            result.append(child.getEnergy())
         return result
 
     def getBestGenotype(self):
@@ -122,3 +130,18 @@ class HerdAgent(Agent):
         if len(neighbours) == 0:
             return None
         return neighbours[self._rand.randint(0, len(neighbours)-1)]
+
+    def addReproductionSucccess(self):
+        self._reproductionSuccessHistory.append(True)
+
+    def addReproductionFail(self):
+        self._reproductionSuccessHistory.append(False)
+
+    def getReproductionSuccessHistory(self):
+        return self._reproductionSuccessHistory
+
+    def getMutationDistance(self):
+        return self._mutationDistance
+    
+    def setMutationDistance(self, newValue):
+        self._mutationDistance = newValue

@@ -17,6 +17,7 @@ from monitor.SimStepsToMakeResultBetterMonitor import SimStepsToMakeResultBetter
 from monitor.StatsCollector import StatsCollector
 from monitor.ResultMonitor import ResultMonitor
 from monitor.BestFitnessMonitor import BestFitnessMonitor
+from monitor.EnergyMonitor import EnergyMonitor
 from action_monitor.action_monitors_holder import ActionMonitorsHolder
 from action_monitor.reproduction_fail_monitor import ReproductionFailMonitor
 from action_monitor.similarity_reproduction_monitor import SimilarityReproductionMonitor

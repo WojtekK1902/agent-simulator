@@ -16,7 +16,7 @@ class MonitorsHolder(object):
             return
         stats = {}
         names = self._getParametersNames(agentClass)
- 
+
         for i in xrange(len(names)):
             onlyOneParams = []
             for param in params:
