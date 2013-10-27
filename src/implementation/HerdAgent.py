@@ -1,3 +1,4 @@
+from numpy import mean
 from agent.Agent import Agent
 from environment.Environment2D import Environment2D
 from environment.AddressManager import AddressManager
@@ -15,7 +16,7 @@ class HerdAgent(Agent):
         Agent.__init__(self, addr, env, childrenEnv)
         self._reprCount = 0
         self._rand = Random()
-        self._reproductionSuccessHistory = [] #list of booleans - True=reproduction succeeded
+        self._reproductionHistory = [] #list of booleans - True=reproduction succeeded
         self._mutationDistance = 1.0 #used in adaptive mutation
            
     def getCount(self):
@@ -117,6 +118,9 @@ class HerdAgent(Agent):
         for child in self.getChildren():
             result.append(child.getFitness())
         return result
+
+    def getReproductionHistory(self):
+        return self._reproductionHistory
     
     def _getAdditionalInfo(self, info):
         val = self.getAddittionalInfo(info)
@@ -132,13 +136,10 @@ class HerdAgent(Agent):
         return neighbours[self._rand.randint(0, len(neighbours)-1)]
 
     def addReproductionSucccess(self):
-        self._reproductionSuccessHistory.append(True)
+        self._reproductionHistory.append(True)
 
     def addReproductionFail(self):
-        self._reproductionSuccessHistory.append(False)
-
-    def getReproductionSuccessHistory(self):
-        return self._reproductionSuccessHistory
+        self._reproductionHistory.append(False)
 
     def getMutationDistance(self):
         return self._mutationDistance

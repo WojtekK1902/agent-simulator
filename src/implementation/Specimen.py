@@ -389,13 +389,15 @@ class Specimen(Agent):
         parentsEnergies = [energy1, energy2]
         meanParentsEnergy = mean(parentsEnergies)
         #meanParentsEnergy = mean([energy/(max(parentsEnergies)/max(gen)) for energy in parentsEnergies])
-        if len(self.getParent().getReproductionSuccessHistory()) > 200:
-            if mean(self.getParent().getReproductionSuccessHistory()[-200:]) < .1:
+        #print mean(self.getParent().getReproductionSuccessHistory()[-200:])
+        if len(self.getParent().getReproductionHistory()) > 200:
+            if mean(self.getParent().getReproductionHistory()[-200:]) < .2:
                 #print 'slabo'
-                self.getParent().setMutationDistance(self.getParent().getMutationDistance() + 0.001)
+                self.getParent().setMutationDistance(self.getParent().getMutationDistance() + 0.01)
                 #print self.getParent().getMutationDistance()
-            #else:
-            #    self.getParent().setMutationDistance(self.getParent().getMutationDistance() - 0.001)
+                pass
+            else:
+                self.getParent().setMutationDistance(self.getParent().getMutationDistance() - 0.01)
         mutationDistance = self.getParent().getMutationDistance()
         #print mutationDistance
         #print mean(self.getParent().getReproductionSuccessHistory()[-100:]), mutationDistance
