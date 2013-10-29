@@ -393,11 +393,11 @@ class Specimen(Agent):
         if len(self.getParent().getReproductionHistory()) > 200:
             if mean(self.getParent().getReproductionHistory()[-200:]) < .2:
                 #print 'slabo'
-                self.getParent().setMutationDistance(self.getParent().getMutationDistance() + 0.01)
+                self.getParent().setMutationDistance(self.getParent().getMutationDistance() + 0.006)
                 #print self.getParent().getMutationDistance()
                 pass
             else:
-                self.getParent().setMutationDistance(self.getParent().getMutationDistance() - 0.01)
+                self.getParent().setMutationDistance(self.getParent().getMutationDistance() - 0.008)
         mutationDistance = self.getParent().getMutationDistance()
         #print mutationDistance
         #print mean(self.getParent().getReproductionSuccessHistory()[-100:]), mutationDistance

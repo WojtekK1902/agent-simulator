@@ -75,7 +75,7 @@ class Parameters(object):
                 #'StatsCollector',                    # GEN EVOL
                 #'DiversityMonitor',                   # GEN EVOL                
                 'DiversityMonitor','BestFitnessMonitor',                   # GEN EVOL
-                'EnergyMonitor',                         #GEN
+                #'EnergyMonitor',                         #GEN
                 'ReproductionHistoryMonitor'            #GEN EVOL
                 ]
     
