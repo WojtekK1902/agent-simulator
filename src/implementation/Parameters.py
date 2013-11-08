@@ -13,17 +13,17 @@ class Parameters(object):
     algorithms = ['GeneticSimulation', 'EvolutionarySimulation']
     algorithm = algorithms[0]
 
-    mutationsType = ['continuousDistribution', 'normalDistribution','discreteDistribution1n1','discreteFlip','adaptiveMutation']
+    mutationsType = ['continuousDistribution', 'normalDistribution','discreteDistribution1n1','discreteFlip','adaptiveMutation','adaptiveDiscreteMutation']
 
     '''Configuration of mutations'''
-    mutation = mutationsType[4]
+    mutation = mutationsType[5]
     
     crossoverTypes = ['SinglePoint','SinglePointPermutation']
     crossover = crossoverTypes[0]
 
 
 
-    simSteps = 6000
+    simSteps = 3000
     agentSteps = None
 
     
@@ -49,7 +49,7 @@ class Parameters(object):
     drawCharts = False
     
     '''How many simulations to launch consecutively.'''
-    simulations = 3
+    simulations = 5
     
     '''In our example it means, that they are 3 normalized float values (RGB)'''
     genotypeLength = 50
@@ -91,9 +91,9 @@ class Parameters(object):
     #http://www.lcc.uma.es/~ccottap/papers/labsASC.pdf
     #function = 'LABS'
     
-#    function = 'LABS'
+    function = 'LABS'
     
-    # genotype length=16
+    #genotype length=16
 #    function = 'RoyalRoad'
     
     
@@ -112,15 +112,15 @@ class Parameters(object):
     
     
     initializations = ['REAL', 'DISCRETE1n1','PERMUTATION','PERMUTATIONJS2']
-    initialization = initializations[0]    
+    initialization = initializations[2]
     
     
     
     # ALBO EWENTUALNIE DLA WSZYSTKICH
     #cubeSize = 10
     
-    function = 'Rastrigin'
-    cubeSize = 10
+    #function = 'Rastrigin'
+    #cubeSize = 10
     #cubeSize = 5.12
 
     #function = 'FrequencyModulatedSoundWaves'

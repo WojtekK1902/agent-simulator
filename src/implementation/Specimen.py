@@ -338,7 +338,10 @@ class Specimen(Agent):
 
     def cosinus(self, specimen2):
         vec1, vec2 = self.getGenotype(), specimen2.getGenotype()
+        if len(vec2) != len(vec1):
+            print vec1, vec2
         sumxy = float(sum([vec1[key] * vec2[key] for key in range(len(vec1))]))
+
         if sumxy == 0.0:
             return 0.0
         sumx = float(sum([vec1[key] ** 2 for key in range(len(vec1))]))
@@ -390,15 +393,20 @@ class Specimen(Agent):
         meanParentsEnergy = mean(parentsEnergies)
         #meanParentsEnergy = mean([energy/(max(parentsEnergies)/max(gen)) for energy in parentsEnergies])
         #print mean(self.getParent().getReproductionSuccessHistory()[-200:])
+        mutationDistance = 1
         if len(self.getParent().getReproductionHistory()) > 200:
             if mean(self.getParent().getReproductionHistory()[-200:]) < .2:
                 #print 'slabo'
-                self.getParent().setMutationDistance(self.getParent().getMutationDistance() + 0.006)
+                #self.getParent().setMutationDistance(self.getParent().getMutationDistance() + 0.001)
                 #print self.getParent().getMutationDistance()
-                pass
-            else:
-                self.getParent().setMutationDistance(self.getParent().getMutationDistance() - 0.008)
-        mutationDistance = self.getParent().getMutationDistance()
+                #pass
+                #self.getParent().setMutationDistance(self.getParent().getMutationDistance() + 0.001)
+                mutationDistance = 25
+            elif mean(self.getParent().getReproductionHistory()[-200:]) < .4:
+                #print 'slabiutko'
+                mutationDistance = 13
+                #self.getParent().setMutationDistance(self.getParent().getMutationDistance() - 0.001)
+        #mutationDistance = self.getParent().getMutationDistance()
         #print mutationDistance
         #print mean(self.getParent().getReproductionSuccessHistory()[-100:]), mutationDistance
         self._genotype=Mutation().mutate(gen, self._rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost, islandEnergyStdDev, mutationDistance)
@@ -459,13 +467,16 @@ class Specimen(Agent):
             self._won += 1
             self._checkIfKill(self, otherAgent)
         if Parameters.memetics!='None':
-            mm = globals()[Parameters.memetizationManager]()
-            if mm.shouldMemetize(self.getGenotype()):
-                fitnessBefore = self.getFitness()
-                genotypeBefore = self.getGenotype()
+            if Parameters.memetizationManager != 'None':
+                mm = globals()[Parameters.memetizationManager]()
+                if mm.shouldMemetize(self.getGenotype()):
+                    fitnessBefore = self.getFitness()
+                    genotypeBefore = self.getGenotype()
+                    self.memetize()
+                    fitnessAfter = self.getFitness()
+                    mm.collectInformation(genotypeBefore, - fitnessAfter + fitnessBefore)
+            elif self._rand.randint(1,100)<=Parameters.memetizationProbability:
                 self.memetize()
-                fitnessAfter = self.getFitness()
-                mm.collectInformation(genotypeBefore, - fitnessAfter + fitnessBefore)
             
     def memetize(self):
         mut = globals()[Parameters.memeticMutation+'Mutation']

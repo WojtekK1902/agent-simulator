@@ -11,6 +11,8 @@ class Mutation(object):
     def mutate(self, genotype, rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost, islandEnergyStdDev, mutationDistance):
         if Parameters.mutation == 'adaptiveMutation':
             return getattr(self, Parameters.mutation)(genotype, rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost, islandEnergyStdDev, mutationDistance)
+        elif Parameters.mutation == 'adaptiveDiscreteMutation':
+            return getattr(self, Parameters.mutation)(genotype, rand, mutationDistance)
         else:
             return getattr(self, Parameters.mutation)(genotype, rand)
     
@@ -58,7 +60,7 @@ class Mutation(object):
         i=j=0
         while i==j:
             i = rand.choice(range(0,len(genotype)-1))        
-            i = rand.choice(range(0,len(genotype)-1))
+            j = rand.choice(range(0,len(genotype)-1))
         temp = genotype[i]
         genotype[i] = genotype[j]
         genotype[j]=temp
@@ -97,6 +99,13 @@ class Mutation(object):
         if newValue < -Parameters.cubeSize:
             newValue = -Parameters.cubeSize
         genotype[i] = newValue
+        return genotype
+
+    def adaptiveDiscreteMutation(self, genotype, rand, mutationDistance):
+        for k in range(mutationDistance):
+            i = rand.randint(0, Parameters.genotypeLength-1)
+            genotype[i] = -genotype[i]
+
         return genotype
 
 
