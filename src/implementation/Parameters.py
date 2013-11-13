@@ -16,10 +16,10 @@ class Parameters(object):
     mutationsType = ['continuousDistribution', 'normalDistribution','discreteDistribution1n1','discreteFlip','adaptiveMutation','adaptiveDiscreteMutation']
 
     '''Configuration of mutations'''
-    mutation = mutationsType[5]
+    mutation = mutationsType[4]
     
-    crossoverTypes = ['SinglePoint','SinglePointPermutation']
-    crossover = crossoverTypes[0]
+    crossoverTypes = ['SinglePoint','SinglePointPermutation','Uniform']
+    crossover = crossoverTypes[2]
 
 
 
@@ -91,7 +91,7 @@ class Parameters(object):
     #http://www.lcc.uma.es/~ccottap/papers/labsASC.pdf
     #function = 'LABS'
     
-    function = 'LABS'
+    #function = 'LABS'
     
     #genotype length=16
 #    function = 'RoyalRoad'
@@ -112,7 +112,7 @@ class Parameters(object):
     
     
     initializations = ['REAL', 'DISCRETE1n1','PERMUTATION','PERMUTATIONJS2']
-    initialization = initializations[2]
+    initialization = initializations[0]
     
     
     
@@ -151,8 +151,8 @@ class Parameters(object):
     #cubeSize = 1
     
     
-    #function = 'Schwefel' # -500:500
-    #cubeSize = 500
+    function = 'Schwefel' # -500:500
+    cubeSize = 500
     
     #function = 'DeJongDynamic'
     #function = 'RastriginDynamic'

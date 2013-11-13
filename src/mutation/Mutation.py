@@ -8,9 +8,9 @@ class Mutation(object):
     worseParents = 0
     normalParents = 0
     
-    def mutate(self, genotype, rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost, islandEnergyStdDev, mutationDistance):
+    def mutate(self, genotype, rand, mutationDistance):
         if Parameters.mutation == 'adaptiveMutation':
-            return getattr(self, Parameters.mutation)(genotype, rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost, islandEnergyStdDev, mutationDistance)
+            return getattr(self, Parameters.mutation)(genotype, rand, mutationDistance)
         elif Parameters.mutation == 'adaptiveDiscreteMutation':
             return getattr(self, Parameters.mutation)(genotype, rand, mutationDistance)
         else:
@@ -67,7 +67,7 @@ class Mutation(object):
 
         return genotype
 
-    def adaptiveMutation(self, genotype, rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost, islandEnergyStdDev, mutationDistance):
+    def adaptiveMutation(self, genotype, rand, mutationDistance):
         i = rand.randint(0, Parameters.genotypeLength-1)
         mutation = rand.normalvariate(0, 1)
 

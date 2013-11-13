@@ -383,33 +383,18 @@ class Specimen(Agent):
     def getLostFightsCount(self):
         return self._lost
     
-    def setNewGenotype(self, gen1, gen2, energy1, energy2, parentsFightsWon, parentsFightsLost):
+    def setNewGenotype(self, gen1, gen2):
         gen=getattr(self, "_cross"+Parameters.crossover)(gen1,gen2)
-        islandEnergies = [child.getEnergy() for child in self.getParent().getChildren()]
-        meanIslandEnergy = mean(islandEnergies)
-        islandEnergyStdDev = std(islandEnergies)
-        #meanIslandEnergy = mean([energy/(max(islandEnergies)/max(gen)) for energy in islandEnergies])
-        parentsEnergies = [energy1, energy2]
-        meanParentsEnergy = mean(parentsEnergies)
-        #meanParentsEnergy = mean([energy/(max(parentsEnergies)/max(gen)) for energy in parentsEnergies])
-        #print mean(self.getParent().getReproductionSuccessHistory()[-200:])
-        mutationDistance = 1
+        mutationDistance = self.getParent().getMutationDistance()
         if len(self.getParent().getReproductionHistory()) > 200:
             if mean(self.getParent().getReproductionHistory()[-200:]) < .2:
-                #print 'slabo'
-                #self.getParent().setMutationDistance(self.getParent().getMutationDistance() + 0.001)
-                #print self.getParent().getMutationDistance()
-                #pass
-                #self.getParent().setMutationDistance(self.getParent().getMutationDistance() + 0.001)
-                mutationDistance = 25
-            elif mean(self.getParent().getReproductionHistory()[-200:]) < .4:
-                #print 'slabiutko'
-                mutationDistance = 13
-                #self.getParent().setMutationDistance(self.getParent().getMutationDistance() - 0.001)
-        #mutationDistance = self.getParent().getMutationDistance()
-        #print mutationDistance
-        #print mean(self.getParent().getReproductionSuccessHistory()[-100:]), mutationDistance
-        self._genotype=Mutation().mutate(gen, self._rand, meanIslandEnergy, meanParentsEnergy, parentsFightsWon, parentsFightsLost, islandEnergyStdDev, mutationDistance)
+                mutationDistance *= 1.22
+            elif mean(self.getParent().getReproductionHistory()[-200:]) > .2:
+                mutationDistance *= 0.82
+            else:
+                mutationDistance *= 1.0
+        self.getParent().setMutationDistance(mutationDistance)
+        self._genotype=Mutation().mutate(gen, self._rand, mutationDistance)
         self._recalculateFitness()
         
     def _crossSinglePoint(self,gen1,gen2):
@@ -438,8 +423,16 @@ class Specimen(Agent):
                                           
         return newGenotype
 
+    def _crossUniform(self, gen1, gen2):
+        newGenotype = []
 
+        for i in range(len(gen1)):
+            if self._rand.randint(0, 1) == 0:
+                newGenotype += [gen1[i]]
+            else:
+                newGenotype += [gen2[i]]
 
+        return newGenotype
 
     
     def fight(self, otherAgent):
