@@ -16,26 +16,26 @@ class GeneticSimLogic(SimLogic):
         
     def runSimulation(self, simSteps):
         try:
-            count = 0
+            self._count = 0
             g = Global()
-            while (simSteps is None or count < simSteps) and (self._stepsMonitor is None or self._stepsMonitor.getAgentsSteps() < Parameters.agentSteps):
-                SimLogic.timestamp = count                
+            while (simSteps is None or self._count < simSteps) and (self._stepsMonitor is None or self._stepsMonitor.getAgentsSteps() < Parameters.agentSteps):
+                SimLogic.timestamp = self._count
                 g.nextStep()
                 self.doStep()
-                count += 1
+                self._count += 1
                 #sleep(1)
         except KeyboardInterrupt:
             for key in self._visualisationListeners.keys():
                 for listener in self._visualisationListeners.get(key):
                     listener.show()
             if simSteps is None:
-                print "simSteps: "+str(count)
+                print "simSteps: "+str(self._count)
             return
         for key in self._visualisationListeners.keys():
                 for listener in self._visualisationListeners.get(key):
                     listener.show()
         if simSteps is None:
-            print "simSteps: "+str(count)
+            print "simSteps: "+str(self._count)
 
     def _decisionPhase(self):
         for rootAgent in self._agents:
@@ -46,6 +46,11 @@ class GeneticSimLogic(SimLogic):
             self._actionManager.addAction(MigrationAction(rootAgent, self))
 
     def _executivePhase(self):
+        Parameters.mutation = Parameters.mutationsType[1]
+        Parameters.adaptiveMutation = 'off'
+        if self._count % 300 == 0:
+            Parameters.adaptiveMutation = 'on'
+            Parameters.mutation = Parameters.mutationsType[4]
         self._actionManager.doActions()
         for rootAgent in self._agents:
             for agent in rootAgent.getDescendants(parent=True):

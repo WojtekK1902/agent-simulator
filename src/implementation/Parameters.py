@@ -16,14 +16,16 @@ class Parameters(object):
     mutationsType = ['continuousDistribution', 'normalDistribution','discreteDistribution1n1','discreteFlip','adaptiveMutation','adaptiveDiscreteMutation']
 
     '''Configuration of mutations'''
-    mutation = mutationsType[4]
+    mutation = mutationsType[1]
+
+    adaptiveMutation = 'off'
     
     crossoverTypes = ['SinglePoint','SinglePointPermutation','Uniform']
     crossover = crossoverTypes[2]
 
 
 
-    simSteps = 3000
+    simSteps = 5000
     agentSteps = None
 
     
@@ -49,7 +51,7 @@ class Parameters(object):
     drawCharts = False
     
     '''How many simulations to launch consecutively.'''
-    simulations = 5
+    simulations = 3
     
     '''In our example it means, that they are 3 normalized float values (RGB)'''
     genotypeLength = 50
@@ -119,8 +121,8 @@ class Parameters(object):
     # ALBO EWENTUALNIE DLA WSZYSTKICH
     #cubeSize = 10
     
-    #function = 'Rastrigin'
-    #cubeSize = 10
+    function = 'Rastrigin'
+    cubeSize = 10
     #cubeSize = 5.12
 
     #function = 'FrequencyModulatedSoundWaves'
@@ -151,8 +153,8 @@ class Parameters(object):
     #cubeSize = 1
     
     
-    function = 'Schwefel' # -500:500
-    cubeSize = 500
+    #function = 'Schwefel' # -500:500
+    #cubeSize = 500
     
     #function = 'DeJongDynamic'
     #function = 'RastriginDynamic'

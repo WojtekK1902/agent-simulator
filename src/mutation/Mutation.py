@@ -102,7 +102,7 @@ class Mutation(object):
         return genotype
 
     def adaptiveDiscreteMutation(self, genotype, rand, mutationDistance):
-        for k in range(mutationDistance):
+        for k in range(int(mutationDistance)):
             i = rand.randint(0, Parameters.genotypeLength-1)
             genotype[i] = -genotype[i]
 
