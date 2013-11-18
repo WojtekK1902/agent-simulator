@@ -46,11 +46,6 @@ class GeneticSimLogic(SimLogic):
             self._actionManager.addAction(MigrationAction(rootAgent, self))
 
     def _executivePhase(self):
-        Parameters.mutation = Parameters.mutationsType[1]
-        Parameters.adaptiveMutation = 'off'
-        if self._count % 300 == 0:
-            Parameters.adaptiveMutation = 'on'
-            Parameters.mutation = Parameters.mutationsType[4]
         self._actionManager.doActions()
         for rootAgent in self._agents:
             for agent in rootAgent.getDescendants(parent=True):
