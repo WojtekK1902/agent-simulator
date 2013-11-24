@@ -387,11 +387,11 @@ class Specimen(Agent):
         gen=getattr(self, "_cross"+Parameters.crossover)(gen1,gen2)
         mutationDistance = self.getParent().getMutationDistance()
         if Parameters.adaptiveMutation == 'on':
-            if len(self.getParent().getReproductionHistory()) > 300:
-                if mean(self.getParent().getReproductionHistory()[-300:]) < .2:
+            if len(self.getParent().getReproductionHistory()) > 200:
+                if mean(self.getParent().getReproductionHistory()[-200:]) < .2:
                     #mutationDistance *= 2.0
                     mutationDistance *= 1.22
-                elif mean(self.getParent().getReproductionHistory()[-300:]) > .2:
+                elif mean(self.getParent().getReproductionHistory()[-200:]) > .2:
                     #mutationDistance /= 2
                     mutationDistance *= 0.82
                 else:

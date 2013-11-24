@@ -18,7 +18,7 @@ class ActionManager(object):
             try:
                 Parameters.mutation = Parameters.mutationsType[1]
                 Parameters.adaptiveMutation = 'off'
-                if self._k % 300 == 0:
+                if self._k % 200 == 0:
                     Parameters.adaptiveMutation = 'on'
                     Parameters.mutation = Parameters.mutationsType[4]
                 action.doAction()

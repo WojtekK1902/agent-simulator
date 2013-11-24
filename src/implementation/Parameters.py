@@ -54,7 +54,7 @@ class Parameters(object):
     simulations = 3
     
     '''In our example it means, that they are 3 normalized float values (RGB)'''
-    genotypeLength = 100
+    genotypeLength = 1000
 
     '''Machine Learning memetization managers'''
     memetizationManagers = ['None', 'AQMemetizationManager', 'NBMemetizationManager']
