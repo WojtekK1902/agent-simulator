@@ -4,8 +4,8 @@ from numpy import mean, std
 
 files = ['count.txt', 'diversity.txt', 'fitness.txt', 'reproduceCount.txt', 'reproductionHistory.txt']
 
-for i in range(Parameters.herdAgentsCount):
-    files.append('energy' + str(i+1) + '.txt')
+#for i in range(Parameters.herdAgentsCount):
+#    files.append('energy' + str(i+1) + '.txt')
 
 #usuwam stare pliki z wynikami
 for f in files:

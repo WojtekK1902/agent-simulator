@@ -386,17 +386,6 @@ class Specimen(Agent):
     def setNewGenotype(self, gen1, gen2):
         gen=getattr(self, "_cross"+Parameters.crossover)(gen1,gen2)
         mutationDistance = self.getParent().getMutationDistance()
-        if Parameters.adaptiveMutation == 'on':
-            if len(self.getParent().getReproductionHistory()) > 300:
-                if mean(self.getParent().getReproductionHistory()[-300:]) < .2:
-                    #mutationDistance *= 2.0
-                    mutationDistance *= 1.22
-                elif mean(self.getParent().getReproductionHistory()[-300:]) > .2:
-                    #mutationDistance /= 2
-                    mutationDistance *= 0.82
-                else:
-                    mutationDistance *= 1.0
-            self.getParent().setMutationDistance(mutationDistance)
         self._genotype=Mutation().mutate(gen, self._rand, mutationDistance)
         self._recalculateFitness()
         

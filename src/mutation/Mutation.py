@@ -73,19 +73,6 @@ class Mutation(object):
 
         mutation *= mutationDistance
 
-        #if islandEnergyStdDev < 40.0:
-        #    mutation *= 4.0
-
-        #if meanParentsEnergy > 1.2*meanIslandEnergy:
-        #    #globals()[betterParents] += 1
-        #    mutation /= 2
-        #elif meanParentsEnergy < 0.5*meanIslandEnergy:
-        #    #globals()[worseParents] += 1
-        #    mutation *= 2
-        #    #globals()[normalParents] += 1
-
-        #print globals()[betterParents], globals()[normalParents], globals()[worseParents]
-
         mutation *= Parameters.mutationMaxValue
         if rand.randint(0, 100) > 50:
             sign = 1

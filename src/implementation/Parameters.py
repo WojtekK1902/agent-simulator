@@ -21,11 +21,11 @@ class Parameters(object):
     adaptiveMutation = 'off'
     
     crossoverTypes = ['SinglePoint','SinglePointPermutation','Uniform']
-    crossover = crossoverTypes[2]
+    crossover = crossoverTypes[0]
 
 
 
-    simSteps = 5000
+    simSteps = 3000
     agentSteps = None
 
     
@@ -54,7 +54,7 @@ class Parameters(object):
     simulations = 3
     
     '''In our example it means, that they are 3 normalized float values (RGB)'''
-    genotypeLength = 100
+    genotypeLength = 50
 
     '''Machine Learning memetization managers'''
     memetizationManagers = ['None', 'AQMemetizationManager', 'NBMemetizationManager']
@@ -78,7 +78,9 @@ class Parameters(object):
                 #'DiversityMonitor',                   # GEN EVOL                
                 'DiversityMonitor','BestFitnessMonitor',                   # GEN EVOL
                 #'EnergyMonitor',                         #GEN
-                'ReproductionHistoryMonitor'            #GEN EVOL
+                'ReproductionHistoryMonitor',            #GEN EVOL
+                'EnergyHistogramMonitor',                #GEN
+                'FitnessHistoryMonitor'                 #GEN EVOL
                 ]
     
     actionMonitors = [

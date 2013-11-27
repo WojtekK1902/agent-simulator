@@ -1,5 +1,5 @@
 from action import MeetingAction
-from implementation.Parameters import Parameters
+
 
 class ActionManager(object):
     
@@ -16,11 +16,6 @@ class ActionManager(object):
     def doActions(self):
         for action in self._actions:
             try:
-                Parameters.mutation = Parameters.mutationsType[1]
-                Parameters.adaptiveMutation = 'off'
-                if self._k % 300 == 0:
-                    Parameters.adaptiveMutation = 'on'
-                    Parameters.mutation = Parameters.mutationsType[4]
                 action.doAction()
                 self._k += 1
             except RuntimeError:
