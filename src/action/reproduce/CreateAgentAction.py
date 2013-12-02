@@ -14,10 +14,11 @@ class CreateAgentAction(Action):
         gen2 = self._agent2.getGenotype()
         self._createdAgent = self._agent1.getParent().addAgent(self._agent1.__class__, self._agent1.getEnv())
         self._createdAgent.setNewGenotype(gen1, gen2)
-        if mean([self._agent1.getFitness(), self._agent2.getFitness()]) > self._createdAgent.getFitness():
+        if self._createdAgent.getParent().getBestFitnessSoFar() > self._createdAgent.getFitness():
             self._createdAgent.getParent().addReproductionSucccess()
         else:
             self._createdAgent.getParent().addReproductionFail()
+
         self._changeAddittionalInfo(1)
         
     def rollback(self, index):

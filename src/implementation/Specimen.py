@@ -397,6 +397,7 @@ class Specimen(Agent):
                 else:
                     mutationDistance *= 1.0
             self.getParent().setMutationDistance(mutationDistance)
+        print (self.getParent().getReproductionHistory())
         self._genotype=Mutation().mutate(gen, self._rand, mutationDistance)
         self._recalculateFitness()
         

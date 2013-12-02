@@ -18,6 +18,7 @@ class HerdAgent(Agent):
         self._rand = Random()
         self._reproductionHistory = [] #list of booleans - True=reproduction succeeded
         self._mutationDistance = 1.0 #used in adaptive mutation
+        self._bestFitnessSoFar = float("infinity")
            
     def getCount(self):
         return len(self.getChildren()) 
@@ -28,12 +29,16 @@ class HerdAgent(Agent):
             agent.setId(childAddr)
             self.getChildrenEnv().putAgents(agent)
             self.addChildren(agent)
+            if agent.getFitness() < self._bestFitnessSoFar:
+                self._bestFitnessSoFar = agent.getFitness()
         
     def addAgent(self, agentClass, agentEnv):
         childAddr = AddressManager.getAddress(self)
         child = agentClass(childAddr, self.getChildrenEnv())
         self.getChildrenEnv().putAgents(child)
         self.addChildren(child)
+        if child.getFitness() < self._bestFitnessSoFar:
+            self._bestFitnessSoFar = child.getFitness()
         return child
 
     def getPos(self):
@@ -146,3 +151,6 @@ class HerdAgent(Agent):
     
     def setMutationDistance(self, newValue):
         self._mutationDistance = newValue
+
+    def getBestFitnessSoFar(self):
+        return self._bestFitnessSoFar
